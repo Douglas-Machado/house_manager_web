@@ -18,19 +18,19 @@ export function Register() {
   const navigate = useNavigate();
 
   async function handleRegister(data: SignUpData) {
-    try{
-        const response = await api.post("/auth/register/", JSON.stringify(data), {
-          headers: {
-            "Content-Type": "Application/json",
-          },
-        });
-        console.log(response.status)
-        navigate("/login")
+    try {
+      const response = await api.post("/auth/register/", JSON.stringify(data), {
+        headers: {
+          "Content-Type": "Application/json",
+        },
+      });
+      console.log(response.status);
+      navigate("/login");
     } catch (err) {
-        const error = err as AxiosError
-        if (!error.message) {
-            console.log('deu erro')
-        }
+      const error = err as AxiosError;
+      if (!error.message) {
+        console.log("deu erro");
+      }
     }
   }
 
@@ -133,7 +133,7 @@ export function Register() {
           <div>
             <span className="m-4">
               Already Have an Account?{" "}
-              <Link to={"/login"} className="text-blue-500">
+              <Link to={"/auth/login"} className="text-blue-500">
                 Login
               </Link>
             </span>

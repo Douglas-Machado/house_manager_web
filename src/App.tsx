@@ -1,27 +1,46 @@
-import { Route, Routes } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
-import { Login } from './Pages/Login'
-import { Register } from './Pages/Register'
-import { Profile } from './Pages/Profile'
-import Dashboard from './Pages/Dashboard'
+import { Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { Login } from "./Pages/Login";
+import { Register } from "./Pages/Register";
+import { Profile } from "./Pages/Profile";
+import Dashboard from "./Pages/Dashboard";
+import Layout from "./components/Layout";
+import RequireAuth from "./components/RequireAuth";
+import Missing from "./Pages/Missing";
+import Home from "./Pages/Home";
 
 function App() {
-
   return (
     <AuthProvider>
-      <div
-        className='text-white h-[100vh] w-[100vw] flex justify-center items-center bg-cover'
-        style={{"backgroundImage": "url('../src/assets/homebg.jpg')"}}
-      >
-        <Routes>
-          <Route path='login' element={<Login/>}/>
-          <Route path='register' element={<Register/>}/>
-          <Route path='profile' element={<Profile/>}/>
-          <Route path='dashboard' element={<Dashboard/>}/>
-        </Routes>
-      </div>
+      <Routes>
+        {/* home */}
+        <Route path="/" element={<Layout />}>
+          <Route path="" element={<Home />} />
+        </Route>
+        {/* missing */}
+        <Route path="*" element={<Layout />}>
+          <Route path="*" element={<Missing />} />
+        </Route>
+
+        {/* auth */}
+        <Route path="/auth" element={<Layout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
+
+        {/* dashboard */}
+        <Route path="/dashboard" element={<Layout />}>
+          <Route element={<RequireAuth />}>
+            <Route path="profile" element={<Profile />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            <Route path="" element={<Dashboard />} />
+          </Route>
+        </Route>
+      </Routes>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

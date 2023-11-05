@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiUser } from "react-icons/bi";
 import { AiOutlineUnlock } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import AuthContext, { IProfile } from "../../contexts/AuthContext";
 import { api } from "../../services/api";
 import { AxiosError, AxiosResponse } from "axios";
@@ -16,7 +16,6 @@ export function Login() {
   const { setAuth } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<SignInRequestData>();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<IProfile | null>(null)
 
   async function handleSignIn({ email, password }: SignInRequestData) {
     try {
@@ -24,18 +23,18 @@ export function Login() {
         "/auth/login/",
         JSON.stringify({ email, password }),
         {
-            headers: { 'Content-Type': 'application/json'},
+          headers: { "Content-Type": "application/json" },
         }
       );
       const accessToken: string = response.data?.access;
-      setAuth({ profile, accessToken})
-      setProfile(null)
-      navigate("/dashboard")
+      const profile: IProfile = response.data.profile;
+      setAuth({ profile, accessToken });
+      navigate("/dashboard");
     } catch (err) {
-        const error = err as AxiosError
-        if (!error.response) {
-            console.log("deu erro")
-        }
+      const error = err as AxiosError;
+      if (!error.response) {
+        console.log("deu erro");
+      }
     }
   }
 
@@ -96,7 +95,7 @@ export function Login() {
           <div>
             <span className="m-4">
               New Here?{" "}
-              <Link to={"/register"} className="text-blue-500">
+              <Link to={"/auth/register"} className="text-blue-500">
                 Create an Account
               </Link>
             </span>
