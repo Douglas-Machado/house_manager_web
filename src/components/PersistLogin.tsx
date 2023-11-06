@@ -2,39 +2,54 @@ import { useEffect, useState } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import { Outlet } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
-  const { auth, setAuth, cookies } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const [cookies, setCookie] = useCookies();
+
+  const verifyRefreshToken = async (refreshToken: string) => {
+    try {
+      const newData = await refresh(refreshToken);
+      setAuth(prev => {
+        return {
+          ...prev,
+          profile: cookies.profile,
+          accessToken: newData.access,
+          refreshToken: newData.refresh,
+        };
+      });
+      setCookie("refresh", newData.refresh)
+      setCookie("access", newData.access, {path: "/", maxAge: 30})
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const verifyRefreshToken = async () => {
-      try {
-        console.log("refresh");
-        await refresh();
-      } catch (err) {
-        console.log(err);
-      } finally {
+    async function checkToken() {
+      if (auth) {
         setIsLoading(false);
+        return;
       }
-    };
-    console.log(cookies)
-    if (!auth && cookies.access) {
-      setAuth({
-        accessToken: cookies.access,
-        profile: cookies.profile,
-        refreshToken: cookies.refresh,
-      });
+      if (cookies.access) {
+        setAuth({
+          accessToken: cookies.access,
+          profile: cookies.profile,
+          refreshToken: cookies.refresh,
+        });
+      } else if (!cookies.access && cookies.refresh) {
+        await verifyRefreshToken(cookies.refresh);
+      }
+      setIsLoading(false);
+      return;
     }
-    // verifyRefreshToken();
-    setIsLoading(false)
-    return;
+    checkToken();
   }, []);
 
-  useEffect(() => {
-    console.log(`IsLoading, ${isLoading}`);
-    console.log(`access, ${JSON.stringify(auth?.accessToken)}`);
-  }, [isLoading]);
   return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
 }

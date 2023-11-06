@@ -16,8 +16,6 @@ export default function DashBoard() {
   
   async function getHouses() {
     try {
-      console.log(auth?.accessToken)
-      console.log('auth?.accessToken')
       const response = await api.get("/houses", {
         headers: {
           "Authorization": `Bearer ${auth?.accessToken}`

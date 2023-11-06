@@ -38,10 +38,9 @@ export function AuthProvider({ children }: Props) {
     removeCookie("access")
     removeCookie("refresh")
     removeCookie("profile")
-    setCookie("access", accessToken, {path: "/"});
+    setCookie("access", accessToken, {path: "/", maxAge: 30});
     setCookie("refresh", refreshToken, {path: "/"});
     setCookie("profile", profile, {path: "/"})
-    console.log(cookies.access)
   }
 
   return (
