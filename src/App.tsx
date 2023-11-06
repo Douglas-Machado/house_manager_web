@@ -2,12 +2,13 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Login } from "./Pages/Login";
 import { Register } from "./Pages/Register";
-import { Profile } from "./Pages/Profile";
+import Profile from "./Pages/Dashboard/Profile";
 import Dashboard from "./Pages/Dashboard";
 import Layout from "./components/Layout";
 import RequireAuth from "./components/RequireAuth";
 import Missing from "./Pages/Missing";
 import Home from "./Pages/Home";
+import PersistLogin from "./components/PersistLogin";
 
 function App() {
   return (
@@ -29,13 +30,15 @@ function App() {
         </Route>
 
         {/* dashboard */}
-        <Route path="/dashboard" element={<Layout />}>
-          <Route element={<RequireAuth />}>
-            <Route path="profile" element={<Profile />} />
-          </Route>
+        <Route element={<PersistLogin />}>
+          <Route path="/dashboard" element={<Layout />}>
+            <Route element={<RequireAuth />}>
+              <Route path="profile" element={<Profile />} />
+            </Route>
 
-          <Route element={<RequireAuth />}>
-            <Route path="" element={<Dashboard />} />
+            <Route element={<RequireAuth />}>
+              <Route path="" element={<Dashboard />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

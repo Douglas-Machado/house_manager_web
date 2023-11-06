@@ -1,21 +1,23 @@
-import { Navigate, useLocation } from "react-router-dom"
-import { useContext } from 'react'
-import { AuthContext } from "./contexts/AuthContext"
-import { Profile } from "./Pages/Profile"
+// import { Navigate, useLocation } from "react-router-dom"
+// import { useContext } from 'react'
+// import AuthContext from "./contexts/AuthContext"
+// import DashBoard from "./Pages/Dashboard"
 
-const useAuth = () => {
-    const { profile } = useContext(AuthContext)
-    return profile
-}
+// const useAuth = () => {
+//     const { auth } = useContext(AuthContext)
+//     return auth
+// }
 
-const ProtectedRoutes = () => {
-    const location = useLocation();
-    const isAuth = useAuth();
-    return isAuth ? (
-        <Profile/>
-    ) : (
-        <Navigate to="/login" replace state={{ from: location }} />
-    )
-}
+// const ProtectedRoutes = () => {
+//     const location = useLocation();
+//     const isAuth = useAuth();
+//     console.log(isAuth)
+//     console.log('isAuth')
+//     return isAuth ? (
+//         <DashBoard/>
+//     ) : (
+//         <Navigate to="/login" replace state={{ from: location }} />
+//     )
+// }
 
-export default ProtectedRoutes;
+// export default ProtectedRoutes;

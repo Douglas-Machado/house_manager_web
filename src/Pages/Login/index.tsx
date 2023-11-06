@@ -3,8 +3,8 @@ import { BiUser } from "react-icons/bi";
 import { AiOutlineUnlock } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
-import AuthContext, { IProfile } from "../../contexts/AuthContext";
-import { api } from "../../services/api";
+import AuthContext, { Profile } from "../../contexts/AuthContext";
+import api from "../../services/api";
 import { AxiosError, AxiosResponse } from "axios";
 
 type SignInRequestData = {
@@ -13,7 +13,7 @@ type SignInRequestData = {
 };
 
 export function Login() {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth, setTokens } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<SignInRequestData>();
   const navigate = useNavigate();
 
@@ -27,8 +27,10 @@ export function Login() {
         }
       );
       const accessToken: string = response.data?.access;
-      const profile: IProfile = response.data.profile;
-      setAuth({ profile, accessToken });
+      const refreshToken: string = response.data?.refresh;
+      const profile: Profile = response.data.profile;
+      setAuth({ profile, accessToken, refreshToken });
+      setTokens({accessToken, refreshToken, profile})
       navigate("/dashboard");
     } catch (err) {
       const error = err as AxiosError;
