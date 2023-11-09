@@ -2,6 +2,7 @@ import { ReactNode, createContext, useState } from "react";
 import { useCookies } from "react-cookie";
 
 export type Profile = {
+  id: number;
   email: string;
   first_name: string;
   last_name: string;
@@ -12,12 +13,12 @@ export type Profile = {
 };
 
 export type Auth = {
-  profile: Profile | null;
+  profile: Profile;
   accessToken: string;
   refreshToken: string;
 };
 
-type AuthContextType = {
+export type AuthContextType = {
   auth: Auth | null;
   setAuth: (data: Auth) => void;
   cookies: object;

@@ -15,29 +15,29 @@ function App() {
     <AuthProvider>
       <Routes>
         {/* home */}
-        <Route path="/" element={<Layout />}>
-          <Route path="" element={<Home />} />
-        </Route>
-        {/* missing */}
-        <Route path="*" element={<Layout />}>
-          <Route path="*" element={<Missing />} />
-        </Route>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          {/* missing */}
+          <Route path="*" element={<Layout />}>
+            <Route path="*" element={<Missing />} />
+          </Route>
 
-        {/* auth */}
-        <Route path="/auth" element={<Layout />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
+          {/* auth */}
+          <Route path="/auth" element={<Layout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
 
-        {/* dashboard */}
-        <Route element={<PersistLogin />}>
-          <Route path="/dashboard" element={<Layout />}>
-            <Route element={<RequireAuth />}>
-              <Route path="profile" element={<Profile />} />
-            </Route>
+          {/* dashboard */}
+          <Route element={<PersistLogin />}>
+            <Route path="/dashboard" element={<Layout />}>
+              <Route element={<RequireAuth />}>
+                <Route path="profile" element={<Profile />} />
+              </Route>
 
-            <Route element={<RequireAuth />}>
-              <Route path="" element={<Dashboard />} />
+              <Route element={<RequireAuth />}>
+                <Route path="" element={<Dashboard />} />
+              </Route>
             </Route>
           </Route>
         </Route>
