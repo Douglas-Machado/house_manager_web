@@ -24,7 +24,6 @@ export function Register() {
           "Content-Type": "Application/json",
         },
       });
-      console.log(response.status);
       navigate("/login");
     } catch (err) {
       const error = err as AxiosError;
