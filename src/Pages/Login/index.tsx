@@ -2,10 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiUser } from "react-icons/bi";
 import { AiOutlineUnlock } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AuthContext, { Profile } from "../../contexts/AuthContext";
 import api from "../../services/api";
 import { AxiosError, AxiosResponse } from "axios";
+import { useCookies } from "react-cookie";
 
 type SignInRequestData = {
   email: string;
@@ -14,8 +15,15 @@ type SignInRequestData = {
 
 export function Login() {
   const { setAuth, setTokens } = useContext(AuthContext);
+  const [ cookies, setCookie, removeCookie ] = useCookies();
   const { register, handleSubmit } = useForm<SignInRequestData>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    removeCookie("access", {path: "/"})
+    removeCookie("refresh", {path: "/"})
+    removeCookie("profile", {path: "/"})
+  }, [])
 
   async function handleSignIn({ email, password }: SignInRequestData) {
     try {

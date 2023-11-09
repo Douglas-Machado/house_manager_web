@@ -20,7 +20,7 @@ export type Auth = {
 
 export type AuthContextType = {
   auth: Auth | null;
-  setAuth: (data: Auth) => void;
+  setAuth: (data: Auth | null) => void;
   cookies: object;
   setTokens: ({profile, accessToken, refreshToken}: Auth) => void;
 };
@@ -40,12 +40,12 @@ export function AuthProvider({ children }: Props) {
     removeCookie("refresh")
     removeCookie("profile")
     setCookie("access", accessToken, {path: "/", maxAge: 30});
-    setCookie("refresh", refreshToken, {path: "/"});
+    setCookie("refresh", refreshToken, {path: "/", maxAge: 864000});
     setCookie("profile", profile, {path: "/"})
   }
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, cookies, setTokens }}>
+    <AuthContext.Provider value={{ auth, cookies, setAuth, setTokens }}>
       {children}
     </AuthContext.Provider>
   );

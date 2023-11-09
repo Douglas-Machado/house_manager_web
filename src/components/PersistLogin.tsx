@@ -21,8 +21,8 @@ export default function PersistLogin() {
           refreshToken: newData.refresh,
         };
       });
-      setCookie("refresh", newData.refresh)
       setCookie("access", newData.access, {path: "/", maxAge: 30})
+      setCookie("refresh", newData.refresh, {path: "/", maxAge: 864000})
     } catch (err) {
       console.log(err);
     } finally {
@@ -32,18 +32,17 @@ export default function PersistLogin() {
 
   useEffect(() => {
     async function checkToken() {
-      if (auth) {
-        setIsLoading(false);
-        return;
-      }
-      if (cookies.access) {
-        setAuth({
-          accessToken: cookies.access,
-          profile: cookies.profile,
-          refreshToken: cookies.refresh,
-        });
-      } else if (!cookies.access && cookies.refresh) {
-        await verifyRefreshToken(cookies.refresh);
+      if (!auth) {
+        if (cookies.access) {
+          console.log(cookies)
+          setAuth({
+            accessToken: cookies.access,
+            profile: cookies.profile,
+            refreshToken: cookies.refresh,
+          });
+        } else if (!cookies.access && cookies.refresh) {
+          await verifyRefreshToken(cookies.refresh);
+        }
       }
       setIsLoading(false);
       return;
