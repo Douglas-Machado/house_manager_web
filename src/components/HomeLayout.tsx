@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const Layout = () => {
+export default function HomeLayout() {
   return (
     <main
       className="text-white h-[100vh] w-[100vw] flex justify-center items-center bg-cover"
@@ -9,6 +9,4 @@ const Layout = () => {
       <Outlet />
     </main>
   );
-};
-
-export default Layout;
+}

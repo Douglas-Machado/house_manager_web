@@ -5,35 +5,35 @@ import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 
-type house = {
+type House = {
   id: number;
   name: string;
 };
 
 export default function DashBoard() {
   const { auth } = useAuth();
-  const [houses, setHouses] = useState<house[]>([]);
+  const [houses, setHouses] = useState<House[]>([]);
   
-  async function getHouses() {
-    try {
-      const response = await api.get("/houses", {
-        headers: {
-          "Authorization": `Bearer ${auth?.accessToken}`
+  
+  useEffect(() => {
+    async function getHouses() {
+      try {
+        const response = await api.get("/houses", {
+          headers: {
+            "Authorization": `Bearer ${auth!.accessToken}`
+          }
+        });
+        setHouses(response.data);
+      } catch (err) {
+        const error = err as AxiosError;
+        console.log(error)
+        if (!error.message) {
+          console.log("deu ruim");
         }
-      });
-      setHouses(response.data);
-    } catch (err) {
-      const error = err as AxiosError;
-      console.log(error)
-      if (!error.message) {
-        console.log("deu ruim");
       }
     }
-  }
-
-  useEffect(() => {
     getHouses();
-  }, []);
+  }, [auth]);
 
   return (
     <div className="bg-slate-800 border border-slate-600 rounded-md p-8 backdrop-filter backdrop-blur-lg bg-opacity-30 relative">

@@ -4,7 +4,8 @@ import { Login } from "./Pages/Login";
 import { Register } from "./Pages/Register";
 import Profile from "./Pages/Dashboard/Profile";
 import Dashboard from "./Pages/Dashboard";
-import Layout from "./components/Layout";
+import HomeLayout from "./components/HomeLayout";
+import DashboardLayout from "./components/DashboardLayout";
 import RequireAuth from "./components/RequireAuth";
 import Missing from "./Pages/Missing";
 import Home from "./Pages/Home";
@@ -15,22 +16,24 @@ function App() {
     <AuthProvider>
       <Routes>
         {/* home */}
-        <Route element={<Layout />}>
+        <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
+        </Route>
+        <Route element={<DashboardLayout />}>
           {/* missing */}
-          <Route path="*" element={<Layout />}>
+          <Route path="*">
             <Route path="*" element={<Missing />} />
           </Route>
 
           {/* auth */}
-          <Route path="/auth" element={<Layout />}>
+          <Route path="/auth">
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
 
           {/* dashboard */}
           <Route element={<PersistLogin />}>
-            <Route path="/dashboard" element={<Layout />}>
+            <Route path="/dashboard">
               <Route element={<RequireAuth />}>
                 <Route path="profile" element={<Profile />} />
               </Route>
