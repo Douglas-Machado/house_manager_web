@@ -1,12 +1,19 @@
 import { BsHouseFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { useCookies } from "react-cookie";
 
 export default function Header() {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const navigate = useNavigate();
 
   function handleLogOut() {
-    console.log('logOut')
+    setAuth(null)
+    removeCookie("access", {path: "/"})
+    removeCookie("profile", {path: "/"})
+    removeCookie("refresh", {path: "/"})
+    navigate("/auth/login")
   }
 
   return (
@@ -17,13 +24,15 @@ export default function Header() {
 
       <ul className="flex items-center gap-4">
         <li>
-          <button className="bg-transparent" onClick={handleLogOut}>
+          <button
+            className="bg-transparent outline-none hover:outline-none"
+            onClick={handleLogOut}>
             logOut
           </button>
         </li>
         <li>
           <Link to={"dashboard/profile"}>
-            <span>profile image {auth?.profile.id}</span>
+            <span>profile image id: {auth?.profile.id}</span>
           </Link>
         </li>
       </ul>
