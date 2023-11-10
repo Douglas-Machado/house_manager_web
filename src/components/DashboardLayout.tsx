@@ -6,7 +6,7 @@ export default function HomeLayout() {
     <>
       <Header />
       <main
-        className="text-white h-[100vh] w-[100vw] flex justify-center items-center bg-cover"
+        className="pt-24 text-white h-[100vh] w-[100vw] flex justify-center items-center bg-cover"
         style={{ backgroundImage: "url('../src/assets/homebg.jpg')" }}
       >
         <Outlet />
