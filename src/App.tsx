@@ -18,8 +18,6 @@ function App() {
         {/* home */}
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
-        </Route>
-        <Route element={<DashboardLayout />}>
           {/* missing */}
           <Route path="*">
             <Route path="*" element={<Missing />} />
@@ -31,6 +29,8 @@ function App() {
             <Route path="register" element={<Register />} />
           </Route>
 
+        </Route>
+        <Route element={<DashboardLayout />}>
           {/* dashboard */}
           <Route element={<PersistLogin />}>
             <Route path="/dashboard">
