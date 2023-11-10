@@ -83,8 +83,10 @@ export default function Profile() {
             onChange={(e) => onChange(e)}
           />
         </div>
-        <div>
-          <button onClick={editUser}>salvar informações</button>
+        <div className="flex justify-center">
+          <button 
+            className="hover:bg-green-500 transition duration-400"
+            onClick={editUser}>salvar informações</button>
         </div>
       </div>
     </div>
